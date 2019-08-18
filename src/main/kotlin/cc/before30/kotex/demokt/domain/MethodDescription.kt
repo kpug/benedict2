@@ -18,4 +18,7 @@ class MethodDescription(
         val fullDescription: String
 ) {
 
+    override fun toString(): String {
+        return "name=$name, fullDescription=$fullDescription"
+    }
 }

@@ -31,21 +31,21 @@ object FileExtractor {
     fun extractMethodName(path: String): List<MethodDescription> {
         val zipFile = ZipFile(path)
         return zipFile.stream()
-                .filter { v -> !v.isDirectory }
-                .filter { v -> !v.name.contains("/src/test/java")}
-                .filter { v -> v.name.endsWith(".java")}
-                .filter { v -> !v.name.endsWith("package-info.java")}
-                .filter { v -> !v.name.endsWith("Test.java")}
-                .map { v -> zipFile.getInputStream(v).buffered().reader().use {
+                .filter { !it.isDirectory }
+                .filter { !it.name.contains("/src/test/java")}
+                .filter { it.name.endsWith(".java")}
+                .filter { !it.name.endsWith("package-info.java")}
+                .filter { !it.name.endsWith("Test.java")}
+                .map { zipFile.getInputStream(it).buffered().reader().use {
                     reader -> reader.readLines()
                 } }
-                .flatMap { it -> it.stream().filter { v -> pattern.matcher(v).find() } }
-                .map { it ->
-                        val matcher = pattern.matcher(it)
+                .flatMap { it.stream().filter { v -> pattern.matcher(v).find() } }
+                .map {
+                    val matcher = pattern.matcher(it)
                         matcher.find()
                         MethodDescription("", matcher.group(3), matcher.group(2) + " " + matcher.group(3) + matcher.group(4))
                 }
-                .peek { v -> println(v.name + " : " + v.fullDescription) }
+                .peek { println(it) }
                 .collect(toList())
     }
 }
