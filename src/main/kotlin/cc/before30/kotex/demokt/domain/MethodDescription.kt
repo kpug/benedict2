@@ -14,9 +14,8 @@ import org.springframework.data.elasticsearch.annotations.Document
 class MethodDescription(
         @Id
         var id: String? = null,
-        val projectName: String,
-        val filePath: String,
-        val name: String
+        val name: String,
+        val fullDescription: String
 ) {
 
 }
