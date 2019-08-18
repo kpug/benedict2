@@ -13,12 +13,13 @@ import org.springframework.data.elasticsearch.annotations.Document
 @Document(indexName = "benedict", type = "method")
 class MethodDescription(
         @Id
-        var id: String? = null,
-        val name: String,
+        var methodId: String? = null,
+        val methodName: String,
         val fullDescription: String
 ) {
+    constructor(): this(null, "", "")
 
     override fun toString(): String {
-        return "name=$name, fullDescription=$fullDescription"
+        return "methodName=$methodName, fullDescription=$fullDescription"
     }
 }

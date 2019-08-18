@@ -15,4 +15,8 @@ class MethodDescriptionService(val methodDescriptionRepository: MethodDescriptio
     fun insert(methodDescription: MethodDescription): MethodDescription {
         return methodDescriptionRepository.save(methodDescription)
     }
+
+    fun findAll(): List<MethodDescription> {
+        return methodDescriptionRepository.findAll().asSequence().toList()
+    }
 }

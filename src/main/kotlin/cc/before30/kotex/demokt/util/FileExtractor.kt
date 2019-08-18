@@ -43,9 +43,8 @@ object FileExtractor {
                 .map {
                     val matcher = pattern.matcher(it)
                         matcher.find()
-                        MethodDescription("", matcher.group(3), matcher.group(2) + " " + matcher.group(3) + matcher.group(4))
+                        MethodDescription(null, matcher.group(3), matcher.group(2) + " " + matcher.group(3) + matcher.group(4))
                 }
-                .peek { println(it) }
                 .collect(toList())
     }
 }
