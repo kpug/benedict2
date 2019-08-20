@@ -1,6 +1,8 @@
 # elasticsearch-ex
 
 ```
+DELETE /benedict
+
 PUT benedict?include_type_name=false
 {
   "mappings": {
@@ -56,4 +58,38 @@ PUT benedict?include_type_name=false
     }
   }
 }
+
+GET benedict
+
+POST benedict/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET benedict/_search
+{
+  "size": 0,
+  "query": {
+    "match": {
+      "methodName.ngram": "get"
+    }
+  },
+  "aggs": {
+    "dedub": {
+      "terms": {
+        "field": "methodName"
+      },
+      "aggs": {
+        "dedub_docs": {
+          "top_hits": {
+            "size": 1
+          }
+        }
+      }
+    }
+  }
+}
+
 ```

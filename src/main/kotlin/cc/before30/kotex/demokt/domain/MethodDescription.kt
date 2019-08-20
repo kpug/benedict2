@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.Document
  * @author before30
  * @since 2019-08-17
  */
-@Document(indexName = "benedict", type = "method")
+@Document(indexName = "benedict", type = "_doc")
 class MethodDescription(
         @Id
         var methodId: String? = null,
