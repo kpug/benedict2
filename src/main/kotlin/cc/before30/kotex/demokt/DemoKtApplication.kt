@@ -18,10 +18,10 @@ class DemoKtApplication : CommandLineRunner {
     lateinit var methodDescriptionService: MethodDescriptionService
 
     override fun run(vararg args: String?) {
-        val extract = FileExtractor.extractMethodName("/Users/before30/workspace/sandbox/demo-kt/src/main/resources/spring-framework-master.zip")
-        extract.stream().forEach {
-            methodDescriptionService.insert(it)
-        }
+//        val extract = FileExtractor.extractMethodName("/Users/before30/workspace/sandbox/demo-kt/src/main/resources/spring-framework-master.zip")
+//        extract.stream().forEach {
+//            methodDescriptionService.insert(it)
+//        }
     }
 }
 
