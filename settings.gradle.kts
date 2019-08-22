@@ -9,6 +9,4 @@ pluginManagement {
 }
 
 rootProject.name = "benedict2"
-include("benedict-core")
-include("benedict-insertion-app")
-include("benedict-retriever-app")
+include("benedict-core", "benedict-insertion-app", "benedict-retriever-app")
