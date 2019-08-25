@@ -7,7 +7,8 @@ plugins {
     id("org.springframework.boot") version "2.1.7.RELEASE" apply false
     id("org.jetbrains.kotlin.plugin.spring") version "1.3.21" apply false
     id("com.gorylenko.gradle-git-properties") version "1.5.1" apply false
-//    id("io.spring.dependency-management") version "1.0.7.RELEASE"
+    id("io.spring.dependency-management") version "1.0.7.RELEASE"
+    id("com.palantir.docker") version "0.21.0" apply false
 }
 
 allprojects {
