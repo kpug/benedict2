@@ -1,3 +1,22 @@
+import com.palantir.gradle.docker.DockerExtension
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+apply(plugin = "com.palantir.docker")
+val bootJar: BootJar by tasks
+bootJar.enabled = true
+
+configure<DockerExtension> {
+
+    name = "${project.name}"
+    version = "${project.version}"
+    files(bootJar.archivePath)
+    setDockerfile(file("src/main/docker/Dockerfile"))
+    buildArgs(mapOf(
+            "JAVA_OPTS" to "-Xs64m -Xmx128m",
+            "JAR_FILE" to "${bootJar.archiveName}"
+    ))
+    dependsOn(tasks["build"])
+}
 
 dependencies {
     compile(project(":benedict-core"))
