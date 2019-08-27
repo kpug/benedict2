@@ -32,4 +32,27 @@
       outline: none;
     }
   }
+
+  .searched-list {
+    list-style-type: none;
+    // border: 1px solid;
+    top: 54px;
+    position: absolute;
+    left: 0px;
+    padding: 0px 20px 0px 30px;
+    width: 350px;
+    font-size: 2em;
+
+    li {
+      padding-left: 15px;
+      border-bottom: 1px solid #9FA4B0;
+    }
+
+    a {
+      color: #837AD1;
+      text-decoration: none;
+    }
+  }
+
+
 }

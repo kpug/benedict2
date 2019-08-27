@@ -5,8 +5,13 @@
   </div>
   <div class="content">
     <p class="round">
-      <input class="search" type="text">
+      <input class="search" type="text" (keydown)="onKeyDown($event)">
     </p>
+    <ul class="searched-list">
+      <li *ngFor="let word of words">
+        <a href="#">{{ word }}</a>
+      </li>
+    </ul>
   </div>
 
 </div>
