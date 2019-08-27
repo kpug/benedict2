@@ -1,11 +1,12 @@
-import { Component } from "@angular/core";
+import { Component, AfterViewInit } from "@angular/core";
+import { StaticSymbolResolver, ElementSchemaRegistry } from "@angular/compiler";
 
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"]
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit {
   words: String[] = [];
 
   fake: String[] = [
@@ -60,6 +61,21 @@ export class HomeComponent {
     "work",
     "would"
   ];
+
+  ngAfterViewInit() {
+    const elems = document.getElementsByClassName("slide");
+
+    for (let i = 0; i < elems.length; i++) {
+      elems[i].style.setProperty(
+        "animation-delay",
+        Math.round(Math.random() * 10) + "s"
+      );
+      elems[i].style.setProperty(
+        "font-size",
+        Math.round(Math.random() * 5) + "em"
+      );
+    }
+  }
 
   onKeyUp(event) {
     // console.log(event.target.value);
