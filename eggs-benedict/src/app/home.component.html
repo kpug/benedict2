@@ -14,13 +14,13 @@
     </ul>
   </div>
   <div class="animation">
-    <p class="slide" *ngFor="let w of fake">
-      {{ w }}
+    <p class="slide" *ngFor="let f of fake.slice(0, 10)">
+      {{ f }}
     </p>
   </div>
-  <div class="animation">
-    <p class="slide" *ngFor="let w of fake">
-      {{ w }}
+  <div class="animation additional">
+    <p class="slide" *ngFor="let f of fake.slice(10, 20)">
+      {{ f }}
     </p>
   </div>
 </div>

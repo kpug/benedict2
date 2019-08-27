@@ -63,6 +63,7 @@ export class HomeComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit() {
+    console.log(this.fake);
     const elems = document.getElementsByClassName("slide");
 
     for (let i = 0; i < elems.length; i++) {
@@ -72,7 +73,7 @@ export class HomeComponent implements AfterViewInit {
       );
       elems[i].style.setProperty(
         "font-size",
-        Math.round(Math.random() * 5) + "em"
+        Math.round(Math.random() * 5 + 2) + "em"
       );
     }
   }
