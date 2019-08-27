@@ -61,18 +61,22 @@ export class HomeComponent {
     "would"
   ];
 
-  onKeyDown(event) {
+  onKeyUp(event) {
     // console.log(event.target.value);
-    this.words = [
-      this.fake[this.r()],
-      this.fake[this.r()],
-      this.fake[this.r()],
-      this.fake[this.r()],
-      this.fake[this.r()]
-    ];
+    if (event.target.value === "") {
+      this.words.splice(0);
+    } else {
+      this.words = [
+        this.fake[this.r()],
+        this.fake[this.r()],
+        this.fake[this.r()],
+        this.fake[this.r()],
+        this.fake[this.r()]
+      ];
+    }
   }
 
   r() {
-    return parseInt(Math.random() * 100) % this.fake.length;
+    return Math.round(Math.random() * 100) % this.fake.length;
   }
 }
