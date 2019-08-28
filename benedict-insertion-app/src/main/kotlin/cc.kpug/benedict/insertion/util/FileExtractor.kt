@@ -12,7 +12,7 @@ import java.util.zip.ZipFile
  * @author before30
  * @since 23/08/2019
  */
-class FileExtractor {
+object FileExtractor {
     val pattern = Pattern.compile("(public|protected|private|static|\\s) +([\\w\\<\\>\\[\\]]+)\\s+(\\w+) *(\\([^\\)]*\\)) *(\\{?|[^;])")
 
     fun extractClassName(path: String): List<String> {

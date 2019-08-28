@@ -1,5 +1,6 @@
 package cc.kpug.benedict.insertion.config
 
+import cc.kpug.benedict.core.domain.BenedictIndex
 import org.elasticsearch.client.Client
 import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.transport.TransportAddress
@@ -44,5 +45,10 @@ class InsertionAppConfiguration {
     @Bean
     fun elasticsearchTemplate(client: Client): ElasticsearchTemplate {
         return ElasticsearchTemplate(client)
+    }
+
+    @Bean
+    fun benedictIndex(): BenedictIndex {
+        return BenedictIndex
     }
 }
