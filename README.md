@@ -8,6 +8,23 @@
 
 `dict` : dictionary
 
+## Test 방법
+```bash
+git clone https://github.com/kpug/benedict2.git
+cd benedict2
+./gradlew clean
+./gradlew build
+./gradlew docker
+cd benedict-retriever-app/src/main/docker
+docker-compose up -d
+cd ../../../..
+// elasticsearch 부팅
+./gradlew benedict-insertion-app:bootRun
+curl http://localhost:8081/search/method/all
+curl http://localhost:8081/search/method/copy
+```
+
+
 ## Elasticsearch
 
 ```
