@@ -1,5 +1,6 @@
 package cc.kpug.benedict.retriever.config
 
+import cc.kpug.benedict.core.domain.BenedictIndex
 import org.elasticsearch.client.Client
 import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.transport.TransportAddress
@@ -46,4 +47,8 @@ class RetrieverAppConfiguration {
         return ElasticsearchTemplate(client)
     }
 
+    @Bean
+    fun benedictIndex(): BenedictIndex {
+        return BenedictIndex
+    }
 }
