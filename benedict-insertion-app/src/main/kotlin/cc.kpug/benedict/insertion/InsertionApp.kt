@@ -14,6 +14,7 @@ import org.springframework.data.elasticsearch.core.query.AliasQuery
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.logging.Logger.getLogger
+import kotlin.math.log
 
 
 /**
@@ -45,9 +46,11 @@ class InsertionApp: CommandLineRunner {
         benedictIndex.name = "_${ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))}"
         logger.info("indexname=benedict${benedictIndex.name}")
         elasticsearchTemplate.createIndex(MethodDescription::class.java)
-
+        elasticsearchTemplate.putMapping(MethodDescription::class.java)
+        elasticsearchTemplate.refresh(MethodDescription::class.java)
         // insert data
-        val extract = FileExtractor.extractMethodName("/Users/before30/workspace/sandbox/demo-kt/src/main/resources/spring-framework-master.zip")
+        val filePath = this::class.java.getResource("/spring-framework-master.zip").path
+        val extract = FileExtractor.extractMethodName(filePath)
         extract.stream().forEach {
             methodDescriptionService.insert(it)
         }
@@ -57,6 +60,7 @@ class InsertionApp: CommandLineRunner {
         aliasQuery.indexName = "benedict${benedictIndex.name}"
         elasticsearchTemplate.addAlias(aliasQuery)
 
+        logger.info("insertion done.")
     }
 }
 

@@ -16,7 +16,7 @@ class MethodDescription(
         @Id
         var id: String? = null,
         @MultiField(mainField = Field(type = FieldType.Text, analyzer = "method_name_analyzer", fielddata = true),
-                otherFields = [InnerField(suffix = "ngram", type = FieldType.Text, analyzer = "method_name_ngram_analyzer")])
+                otherFields = [InnerField(suffix = "ngram", type = FieldType.Text, fielddata=true, analyzer = "method_name_ngram_analyzer")])
         val methodName: String,
         @Field(type = FieldType.Keyword, index = false)
         val methodSignature: String

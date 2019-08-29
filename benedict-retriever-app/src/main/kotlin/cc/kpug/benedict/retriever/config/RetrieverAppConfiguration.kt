@@ -49,6 +49,8 @@ class RetrieverAppConfiguration {
 
     @Bean
     fun benedictIndex(): BenedictIndex {
+        BenedictIndex.name = "_alias"
+
         return BenedictIndex
     }
 }

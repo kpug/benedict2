@@ -5,6 +5,8 @@ import org.elasticsearch.search.aggregations.AggregationBuilder
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms
 import org.elasticsearch.search.aggregations.metrics.tophits.InternalTopHits
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder
 import org.springframework.stereotype.Service
@@ -25,10 +27,11 @@ class MethodDescriptionService(val methodDescriptionRepository: MethodDescriptio
     }
 
     fun findAll(): List<MethodDescription> {
-        return methodDescriptionRepository.findAll().asSequence().toList()
+       return methodDescriptionRepository
+               .findAll(PageRequest.of(1, 100)).asSequence().toList()
     }
 
-    fun search(query: String): List<String> {
+    fun search(query: String, indexName: String): List<String> {
         val searchQuery = NativeSearchQueryBuilder()
                 .withQuery(matchQuery("methodName.ngram", query))
                 .build()
@@ -41,7 +44,7 @@ class MethodDescriptionService(val methodDescriptionRepository: MethodDescriptio
                                 .topHits("dedup_docs")
                                 .size(1))
         val response = elasticsearchTemplate.client
-                .prepareSearch("benedict")
+                .prepareSearch(indexName)
                 .setSize(0)
                 .setTypes("_doc")
                 .setQuery(searchQuery.query)
