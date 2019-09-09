@@ -18,7 +18,7 @@ cd benedict2
 cd benedict-retriever-app/src/main/docker
 docker-compose up -d
 cd ../../../..
-// elasticsearch 부팅
+// elasticsearch 부팅...
 ./gradlew benedict-insertion-app:bootRun
 curl http://localhost:8081/search/method/all
 curl http://localhost:8081/search/method/copy
@@ -117,6 +117,20 @@ GET benedict/_search
       }
     }
   }
+}
+
+GET benedict/_search
+{
+ "suggest" : {
+   "YOUR_SUGGESTION": {
+      "prefix" : "get",
+      "completion": {
+        "field" : "methodName.completion",
+        "size" : 20,
+        "skip_duplicates": true
+      }
+   }
+ }
 }
 
 ```

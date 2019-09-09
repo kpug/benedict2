@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
  * @since 23/08/2019
  */
 @RestController
-@RequestMapping("/search/method")
+@RequestMapping("/method")
 class RetrieverController(val methodDescriptionService: MethodDescriptionService,
                           val benedictIndex: BenedictIndex) {
     @GetMapping("/all")
@@ -24,7 +24,11 @@ class RetrieverController(val methodDescriptionService: MethodDescriptionService
         return methodDescriptionService.findAll()
     }
 
-    @GetMapping("/{query}")
+    @GetMapping("/search/{query}")
     fun searchMethod(@PathVariable query: String) =
             methodDescriptionService.search(query, "benedict" + benedictIndex.name)
+
+    @GetMapping("/suggest/{query}")
+    fun suggestMethod(@PathVariable query: String) =
+            methodDescriptionService.suggest(query, "benedict" + benedictIndex.name)
 }

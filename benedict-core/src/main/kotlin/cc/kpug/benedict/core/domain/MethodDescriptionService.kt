@@ -5,11 +5,15 @@ import org.elasticsearch.search.aggregations.AggregationBuilder
 import org.elasticsearch.search.aggregations.AggregationBuilders
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms
 import org.elasticsearch.search.aggregations.metrics.tophits.InternalTopHits
+import org.elasticsearch.search.suggest.SuggestBuilder
+import org.elasticsearch.search.suggest.completion.CompletionSuggestion
+import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder
 import org.springframework.stereotype.Service
+import java.lang.annotation.Native
 
 /**
  *
@@ -22,6 +26,8 @@ import org.springframework.stereotype.Service
 class MethodDescriptionService(val methodDescriptionRepository: MethodDescriptionRepository,
                                val elasticsearchTemplate: ElasticsearchTemplate) {
 
+    val METHOD_SUGGESTION = "METHOD_SUGGESTION"
+
     fun insert(methodDescription: MethodDescription): MethodDescription {
         return methodDescriptionRepository.save(methodDescription)
     }
@@ -29,6 +35,31 @@ class MethodDescriptionService(val methodDescriptionRepository: MethodDescriptio
     fun findAll(): List<MethodDescription> {
        return methodDescriptionRepository
                .findAll(PageRequest.of(1, 100)).asSequence().toList()
+    }
+
+    fun suggest(query: String, indexName: String): List<String> {
+
+        val suggestion = CompletionSuggestionBuilder("methodName.completion")
+                .prefix(query)
+                .size(10)
+                .skipDuplicates(true)
+
+        val suggestQuery = SuggestBuilder()
+                .addSuggestion(METHOD_SUGGESTION, suggestion)
+        val response = elasticsearchTemplate.client
+                .prepareSearch(indexName)
+                .suggest(suggestQuery)
+                .setSize(0)
+                .setTypes("_doc")
+                .execute()
+                .actionGet()
+
+        val resutls = response.suggest
+                .getSuggestion<CompletionSuggestion>(METHOD_SUGGESTION)
+                .entries[0].options
+                .map { it.text.toString() }
+
+        return resutls
     }
 
     fun search(query: String, indexName: String): List<String> {

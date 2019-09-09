@@ -1,0 +1,24 @@
+{
+  "_doc": {
+    "properties": {
+      "methodName": {
+        "type": "text",
+        "analyzer": "method_name_analyzer",
+        "fielddata": true,
+        "fields": {
+          "completion": {
+            "type": "completion"
+          },
+          "ngram": {
+            "type": "text",
+            "analyzer": "method_name_ngram_analyzer"
+          }
+        }
+      },
+      "methodSignature": {
+        "type": "keyword",
+        "index": false
+      }
+    }
+  }
+}
