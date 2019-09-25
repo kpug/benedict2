@@ -1,7 +1,7 @@
 # Local Elasticsearch config
 elasticsearch:
   host: localhost
-  port: 9300
+  port: 9200
   clustername: docker-cluster
 spring:
   application:
