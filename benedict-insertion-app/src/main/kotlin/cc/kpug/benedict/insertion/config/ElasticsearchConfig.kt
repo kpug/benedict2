@@ -18,6 +18,6 @@ class ElasticsearchConfig {
 
     @Bean(destroyMethod = "close")
     fun elasticsearchRestHighLevelClient(): RestHighLevelClient {
-        return RestHighLevelClient(RestClient.builder(HttpHost(host, port.toInt())))
+        return RestHighLevelClient(RestClient.builder(HttpHost(host, 9200)))
     }
 }

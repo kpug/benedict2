@@ -47,8 +47,12 @@ class InsertionAppConfiguration {
         return ElasticsearchTemplate(client)
     }
 
+    @Value("\${elasticsearch.index:benedict_0000}")
+    val indexName: String? = null
+
     @Bean
     fun benedictIndex(): BenedictIndex {
+        BenedictIndex.name = "benedict_test1"
         return BenedictIndex
     }
 }

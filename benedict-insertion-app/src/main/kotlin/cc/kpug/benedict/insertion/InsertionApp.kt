@@ -14,6 +14,9 @@ import org.springframework.data.elasticsearch.core.query.AliasQuery
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.logging.Logger.getLogger
+import java.io.InputStreamReader
+import java.io.LineNumberReader
+import java.util.stream.Collectors
 
 
 /**
@@ -44,29 +47,56 @@ class InsertionApp: CommandLineRunner {
     lateinit var benedictAliasService: BenedictAliasService
 
     override fun run(vararg args: String?) {
-//        logger.info("hello world")
-//        // create index
-//        val indexName = "benedict_${ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))}"
-//        benedictIndex.name = indexName
-//
-//        logger.info("indexname=${indexName}")
-//
-//        elasticsearchTemplate.createIndex(MethodDescription::class.java)
-//        elasticsearchTemplate.putMapping(MethodDescription::class.java)
-//        elasticsearchTemplate.refresh(MethodDescription::class.java)
-//        // insert data
-//        val filePath = this::class.java.getResource("/spring-framework-master.zip").path
-//        val extract = FileExtractor.extractMethodName(filePath)
-//        extract.stream().forEach {
-//            methodDescriptionService.insert(it)
-//        }
-//
-//        benedictAliasService.apply(indexName)
-//
-//        logger.info("insertion done.")
-        benedictAliasService.apply("benedict_20190916211925")
+        logger.info("hello world")
+        // create index
+        val indexName = "benedict_test1"
+        benedictIndex.name = indexName
+
+        logger.info("indexname=${indexName}")
+        elasticsearchTemplate.deleteIndex(indexName)
+        elasticsearchTemplate.createIndex(indexName, loadFromFile("/settings/method-analyzer.json"))
+        elasticsearchTemplate.putMapping(indexName, "_doc", loadFromFile("/mappings/method-mapping.json"))
+        elasticsearchTemplate.refresh(indexName)
+
+        // insert data
+        val filePath = this::class.java.getResource("/spring-framework-master.zip").path
+        val extract = FileExtractor.extractMethodName(filePath)
+
+        var buffer = ArrayList<MethodDescription>()
+        for (method in extract) {
+
+            buffer.add(method)
+            if (buffer.size > 100) {
+                methodDescriptionService.bulkInsert(buffer)
+                buffer = ArrayList<MethodDescription>()
+            }
+        }
+
+        if (buffer.size > 0) {
+            methodDescriptionService.bulkInsert(buffer)
+        }
+
+        logger.info("insertion done.")
+    }
+
+    @Throws(IllegalStateException::class)
+    fun loadFromFile(fileName: String): String {
+        val buffer = StringBuilder(2048)
+        try {
+            val `is` = this::class.java.getResourceAsStream(fileName)
+            val reader = LineNumberReader(InputStreamReader(`is`))
+            while (reader.ready()) {
+                buffer.append(reader.readLine())
+                buffer.append(' ')
+            }
+        } catch (e: Exception) {
+            throw IllegalStateException("couldn't load file $fileName", e)
+        }
+
+        return buffer.toString()
     }
 }
+
 
 fun main(args: Array<String>) {
     runApplication<InsertionApp>(*args)
