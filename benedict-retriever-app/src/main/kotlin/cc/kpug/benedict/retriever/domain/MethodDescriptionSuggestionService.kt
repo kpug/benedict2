@@ -34,6 +34,7 @@ class MethodDescriptionSuggestionService(val elasticsearchTemplate: Elasticsearc
         return resp.subList(0, Math.min(10, resp.size))
     }
 
+    // TODO: 중복 제거
     fun suggest(query: String): List<String> {
 
         val suggestion = CompletionSuggestionBuilder("methodName.completion")
@@ -59,6 +60,7 @@ class MethodDescriptionSuggestionService(val elasticsearchTemplate: Elasticsearc
         return resutls
     }
 
+    // TODO: 중복 제거
     fun search(query: String): List<String> {
         val searchQuery = NativeSearchQueryBuilder()
                 .withQuery(QueryBuilders.matchQuery("methodName.ngram", query))
