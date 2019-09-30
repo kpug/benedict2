@@ -49,22 +49,18 @@ class InsertionApp: CommandLineRunner {
     override fun run(vararg args: String?) {
         logger.info("hello world")
         // create index
-        val indexName = "benedict_test1"
-        benedictIndex.name = indexName
 
-        logger.info("indexname=${indexName}")
-        elasticsearchTemplate.deleteIndex(indexName)
-        elasticsearchTemplate.createIndex(indexName, loadFromFile("/settings/method-analyzer.json"))
-        elasticsearchTemplate.putMapping(indexName, "_doc", loadFromFile("/mappings/method-mapping.json"))
-        elasticsearchTemplate.refresh(indexName)
+        logger.info("indexname=${benedictIndex.name}")
+        elasticsearchTemplate.deleteIndex(benedictIndex.name)
+        elasticsearchTemplate.createIndex(benedictIndex.name, loadFromFile("/settings/method-analyzer.json"))
+        elasticsearchTemplate.putMapping(benedictIndex.name, "_doc", loadFromFile("/mappings/method-mapping.json"))
+        elasticsearchTemplate.refresh(benedictIndex.name)
 
         // insert data
         val filePath = this::class.java.getResource("/spring-framework-master.zip").path
         val extract = FileExtractor.extractMethodName(filePath)
-
         var buffer = ArrayList<MethodDescription>()
         for (method in extract) {
-
             buffer.add(method)
             if (buffer.size > 100) {
                 methodDescriptionService.bulkInsert(buffer)
@@ -75,7 +71,7 @@ class InsertionApp: CommandLineRunner {
         if (buffer.size > 0) {
             methodDescriptionService.bulkInsert(buffer)
         }
-
+        benedictAliasService.apply(benedictIndex.name)
         logger.info("insertion done.")
     }
 
