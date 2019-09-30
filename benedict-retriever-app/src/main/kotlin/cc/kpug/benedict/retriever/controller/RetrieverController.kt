@@ -32,4 +32,8 @@ class RetrieverController(
     @GetMapping("/suggest/{query}")
     fun suggestMethod(@PathVariable query: String) =
             methodDescriptionSuggestionService.suggest(query)
+
+    @GetMapping("/mix/{query}")
+    fun suggestAndSearchMethod(@PathVariable query: String) =
+            methodDescriptionSuggestionService.suggestAndSearch(query)
 }

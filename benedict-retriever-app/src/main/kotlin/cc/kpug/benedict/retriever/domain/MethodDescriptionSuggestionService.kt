@@ -22,6 +22,18 @@ import org.springframework.stereotype.Service
 @Service
 class MethodDescriptionSuggestionService(val elasticsearchTemplate: ElasticsearchTemplate) {
 
+    fun suggestAndSearch(query: String): List<String> {
+        val resp = ArrayList<String>()
+
+        resp.addAll(suggest(query))
+        if (resp.size < 10) {
+            resp.addAll(search(query))
+
+        }
+
+        return resp.subList(0, Math.min(10, resp.size))
+    }
+
     fun suggest(query: String): List<String> {
 
         val suggestion = CompletionSuggestionBuilder("methodName.completion")
