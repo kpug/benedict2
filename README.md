@@ -134,3 +134,8 @@ GET benedict/_search
 }
 
 ```
+
+```
+curl http://localhost:8081/method/suggest/get
+curl http://localhost:8081/method/search/text
+```
