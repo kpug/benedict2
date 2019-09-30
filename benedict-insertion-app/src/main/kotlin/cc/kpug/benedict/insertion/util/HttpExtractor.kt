@@ -21,8 +21,6 @@ object HttpExtractor {
         val tmpFile = File(tmpDirPath + "/" + UUID.randomUUID() + ".zip")
         tmpFile.deleteOnExit()
 
-        println(tmpFile)
-
         FileUtils.copyURLToFile(URL(url), tmpFile, 5000, 5000)
         return FileExtractor.extractMethodName(tmpFile.path)
     }
