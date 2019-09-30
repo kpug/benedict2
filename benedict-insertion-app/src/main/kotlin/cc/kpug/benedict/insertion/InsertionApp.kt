@@ -5,6 +5,7 @@ import cc.kpug.benedict.core.domain.MethodDescriptionService
 import cc.kpug.benedict.core.domain.BenedictIndex
 import cc.kpug.benedict.insertion.service.BenedictAliasService
 import cc.kpug.benedict.insertion.util.FileExtractor
+import cc.kpug.benedict.insertion.util.HttpExtractor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -59,19 +60,30 @@ class InsertionApp: CommandLineRunner {
         // insert data
         val filePath = this::class.java.getResource("/spring-framework-master.zip").path
         // TODO : Stream 형태로 변환
-        val extract = FileExtractor.extractMethodName(filePath)
-        var buffer = ArrayList<MethodDescription>()
-        for (method in extract) {
-            buffer.add(method)
-            if (buffer.size > 100) {
+        val repositories = listOf(
+            "https://github.com/spring-projects/spring-framework/archive/v5.2.0.RELEASE.zip",
+            "https://github.com/spring-projects/spring-boot/archive/v2.1.8.RELEASE.zip",
+            "https://github.com/resilience4j/resilience4j/archive/v1.1.0.zip",
+            "https://github.com/apache/tomcat/archive/9.0.26.zip"
+//            "https://github.com/openjdk/jdk/archive/jdk-14+16.zip"
+        )
+
+        for (repo in repositories) {
+            val extract = HttpExtractor.extractMethodName(repo)
+            var buffer = ArrayList<MethodDescription>()
+            for (method in extract) {
+                buffer.add(method)
+                if (buffer.size > 100) {
+                    methodDescriptionService.bulkInsert(buffer)
+                    buffer = ArrayList<MethodDescription>()
+                }
+            }
+
+            if (buffer.size > 0) {
                 methodDescriptionService.bulkInsert(buffer)
-                buffer = ArrayList<MethodDescription>()
             }
         }
 
-        if (buffer.size > 0) {
-            methodDescriptionService.bulkInsert(buffer)
-        }
         benedictAliasService.apply(benedictIndex.name)
         logger.info("insertion done.")
         // TODO: App 종료 왜 안되는지 확인
