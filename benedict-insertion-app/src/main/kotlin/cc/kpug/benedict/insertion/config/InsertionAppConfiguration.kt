@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories
 import java.net.InetAddress
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  *
@@ -49,6 +51,7 @@ class InsertionAppConfiguration {
 
     @Bean
     fun benedictIndex(): BenedictIndex {
-        return BenedictIndex
+        val indexName = "benedict_${LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))}"
+        return BenedictIndex(indexName)
     }
 }

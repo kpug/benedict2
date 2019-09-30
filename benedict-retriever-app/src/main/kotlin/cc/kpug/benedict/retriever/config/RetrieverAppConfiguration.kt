@@ -1,5 +1,6 @@
 package cc.kpug.benedict.retriever.config
 
+import cc.kpug.benedict.core.domain.BenedictEsConstants
 import cc.kpug.benedict.core.domain.BenedictIndex
 import org.elasticsearch.client.Client
 import org.elasticsearch.common.settings.Settings
@@ -51,8 +52,6 @@ class RetrieverAppConfiguration {
 
     @Bean
     fun benedictIndex(): BenedictIndex {
-        BenedictIndex.name = "_alias"
-
-        return BenedictIndex
+        return BenedictIndex(BenedictEsConstants.ALIAS)
     }
 }

@@ -28,7 +28,7 @@ class BenedictAliasService(
                 .alias(BenedictEsConstants.ALIAS)
 
         val removeIndexActions =  getIndices(BenedictEsConstants.ALIAS).map {
-            AliasActions(AliasActions.Type.REMOVE).index(it)
+            AliasActions(AliasActions.Type.REMOVE_INDEX).index(it)
         }
         val request = removeIndexActions.fold(
                 IndicesAliasesRequest().addAliasAction(addIndexAction),

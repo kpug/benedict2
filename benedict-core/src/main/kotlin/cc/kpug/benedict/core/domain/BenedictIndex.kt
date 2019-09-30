@@ -7,6 +7,4 @@ package cc.kpug.benedict.core.domain
  * @author before30
  * @since 28/08/2019
  */
-object BenedictIndex {
-    var name = ""
-}
+class BenedictIndex(val name: String)

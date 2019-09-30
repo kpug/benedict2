@@ -29,6 +29,11 @@ class MethodDescriptionService(val methodDescriptionRepository: MethodDescriptio
         return methodDescriptionRepository.save(methodDescription)
     }
 
+    fun bulkInsert(methodDescriptions: List<MethodDescription>): Boolean {
+        methodDescriptionRepository.saveAll(methodDescriptions)
+        return true
+    }
+
     fun findAll(): List<MethodDescription> {
        return methodDescriptionRepository
                .findAll(PageRequest.of(1, 100)).asSequence().toList()

@@ -2,7 +2,6 @@ package cc.kpug.benedict.retriever.controller
 
 import cc.kpug.benedict.core.domain.MethodDescription
 import cc.kpug.benedict.core.domain.MethodDescriptionService
-import cc.kpug.benedict.retriever.domain.MethodDescription
 import cc.kpug.benedict.retriever.domain.MethodDescriptionSuggestionService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
