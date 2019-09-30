@@ -58,6 +58,7 @@ class InsertionApp: CommandLineRunner {
 
         // insert data
         val filePath = this::class.java.getResource("/spring-framework-master.zip").path
+        // TODO : Stream 형태로 변환
         val extract = FileExtractor.extractMethodName(filePath)
         var buffer = ArrayList<MethodDescription>()
         for (method in extract) {
@@ -73,6 +74,7 @@ class InsertionApp: CommandLineRunner {
         }
         benedictAliasService.apply(benedictIndex.name)
         logger.info("insertion done.")
+        // TODO: App 종료 왜 안되는지 확인
     }
 
     @Throws(IllegalStateException::class)
