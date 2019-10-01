@@ -24,8 +24,6 @@ import java.time.format.DateTimeFormatter
  */
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = ["cc.kpug.benedict.core.domain"])
-@ComponentScan(basePackages = ["cc.kpug.benedict.core.domain"])
 class InsertionAppConfiguration {
     @Value("\${elasticsearch.host:127.0.0.1}")
     val host: String? = null

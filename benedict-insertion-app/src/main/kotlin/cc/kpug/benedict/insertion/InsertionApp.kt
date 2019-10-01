@@ -1,23 +1,19 @@
 package cc.kpug.benedict.insertion
 
-import cc.kpug.benedict.core.domain.MethodDescription
-import cc.kpug.benedict.core.domain.MethodDescriptionService
 import cc.kpug.benedict.core.domain.BenedictIndex
+import cc.kpug.benedict.core.domain.MethodDescription
 import cc.kpug.benedict.insertion.service.BenedictAliasService
-import cc.kpug.benedict.insertion.util.FileExtractor
 import cc.kpug.benedict.insertion.util.HttpExtractor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate
-import org.springframework.data.elasticsearch.core.query.AliasQuery
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.logging.Logger.getLogger
+import org.springframework.data.elasticsearch.core.query.IndexQuery
+import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder
 import java.io.InputStreamReader
 import java.io.LineNumberReader
-import java.util.stream.Collectors
+import java.util.logging.Logger.getLogger
 
 
 /**
@@ -37,9 +33,6 @@ class InsertionApp: CommandLineRunner {
 
     @Autowired
     lateinit var elasticsearchTemplate: ElasticsearchTemplate
-
-    @Autowired
-    lateinit var methodDescriptionService: MethodDescriptionService
 
     @Autowired
     lateinit var benedictIndex: BenedictIndex
@@ -71,16 +64,22 @@ class InsertionApp: CommandLineRunner {
         for (repo in repositories) {
             val extract = HttpExtractor.extractMethodName(repo)
             var buffer = ArrayList<MethodDescription>()
+            var buffer2 = ArrayList<IndexQuery>()
             for (method in extract) {
-                buffer.add(method)
+//                buffer.add(method)
+                buffer2.add(IndexQueryBuilder().withIndexName(benedictIndex.name).withObject(method).build())
                 if (buffer.size > 100) {
-                    methodDescriptionService.bulkInsert(buffer)
-                    buffer = ArrayList<MethodDescription>()
+
+                    elasticsearchTemplate.bulkIndex(buffer2)
+                    buffer2 = ArrayList<IndexQuery>()
+//                    methodDescriptionService.bulkInsert(buffer)
+//                    buffer = ArrayList<MethodDescription>()
                 }
             }
 
-            if (buffer.size > 0) {
-                methodDescriptionService.bulkInsert(buffer)
+            if (buffer2.size > 0) {
+//                methodDescriptionService.bulkInsert(buffer)
+                elasticsearchTemplate.bulkIndex(buffer2)
             }
         }
 
