@@ -14,6 +14,9 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder
 import java.io.InputStreamReader
 import java.io.LineNumberReader
 import java.util.logging.Logger.getLogger
+import org.springframework.context.ConfigurableApplicationContext
+
+
 
 
 /**
@@ -40,6 +43,10 @@ class InsertionApp: CommandLineRunner {
     @Autowired
     lateinit var benedictAliasService: BenedictAliasService
 
+    @Autowired
+    lateinit var context: ConfigurableApplicationContext
+
+
     override fun run(vararg args: String?) {
         logger.info("hello world")
         // create index
@@ -58,34 +65,27 @@ class InsertionApp: CommandLineRunner {
             "https://github.com/spring-projects/spring-boot/archive/v2.1.8.RELEASE.zip",
             "https://github.com/resilience4j/resilience4j/archive/v1.1.0.zip",
             "https://github.com/apache/tomcat/archive/9.0.26.zip"
-//            "https://github.com/openjdk/jdk/archive/jdk-14+16.zip"
         )
 
         for (repo in repositories) {
             val extract = HttpExtractor.extractMethodName(repo)
-            var buffer = ArrayList<MethodDescription>()
-            var buffer2 = ArrayList<IndexQuery>()
+            var buffer = ArrayList<IndexQuery>()
             for (method in extract) {
-//                buffer.add(method)
-                buffer2.add(IndexQueryBuilder().withIndexName(benedictIndex.name).withObject(method).build())
+                buffer.add(IndexQueryBuilder().withIndexName(benedictIndex.name).withObject(method).build())
                 if (buffer.size > 100) {
-
-                    elasticsearchTemplate.bulkIndex(buffer2)
-                    buffer2 = ArrayList<IndexQuery>()
-//                    methodDescriptionService.bulkInsert(buffer)
-//                    buffer = ArrayList<MethodDescription>()
+                    elasticsearchTemplate.bulkIndex(buffer)
+                    buffer = ArrayList<IndexQuery>()
                 }
             }
 
-            if (buffer2.size > 0) {
-//                methodDescriptionService.bulkInsert(buffer)
-                elasticsearchTemplate.bulkIndex(buffer2)
+            if (buffer.size > 0) {
+                elasticsearchTemplate.bulkIndex(buffer)
             }
         }
 
         benedictAliasService.apply(benedictIndex.name)
         logger.info("insertion done.")
-        // TODO: App 종료 왜 안되는지 확인
+        context.close()
     }
 
     @Throws(IllegalStateException::class)
