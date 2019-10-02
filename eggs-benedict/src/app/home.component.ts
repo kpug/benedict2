@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from "@angular/core";
-import { StaticSymbolResolver, ElementSchemaRegistry } from "@angular/compiler";
+import { EsService } from './es.service'
 
 @Component({
   selector: "app-home",
@@ -62,16 +62,18 @@ export class HomeComponent implements AfterViewInit {
     "would"
   ];
 
-  ngAfterViewInit() {
-    console.log(this.fake);
-    const elems = document.getElementsByClassName("slide");
+  constructor(private esService: EsService) {
+  }
 
+  ngAfterViewInit() {
+    const elems = document.getElementsByClassName("slide") as HTMLCollectionOf<HTMLElement>;
+  
     for (let i = 0; i < elems.length; i++) {
-      elems[i].style.setProperty(
+      elems.item(i).style.setProperty(
         "animation-delay",
         Math.round(Math.random() * 10) + "s"
       );
-      elems[i].style.setProperty(
+      elems.item(i).style.setProperty(
         "font-size",
         Math.round(Math.random() * 5 + 2) + "em"
       );
@@ -79,18 +81,13 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onKeyUp(event) {
-    // console.log(event.target.value);
-    if (event.target.value === "") {
-      this.words.splice(0);
-    } else {
-      this.words = [
-        this.fake[this.r()],
-        this.fake[this.r()],
-        this.fake[this.r()],
-        this.fake[this.r()],
-        this.fake[this.r()]
-      ];
-    }
+    this.esService.sayHi(event.target.value).subscribe((data) => {
+      this.words.splice(0)
+
+      for(let i = 0 ; i < data.length ; i++) {
+        this.words.push(data[i])
+      }
+    })
   }
 
   r() {
