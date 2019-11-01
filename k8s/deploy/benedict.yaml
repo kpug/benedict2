@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: benedict-retriever-app
+  name: benedict-retriever-app
+spec:
+  selector:
+    matchLabels:
+      name: benedict-retriever-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: benedict-retriever-app
+    spec:
+      containers:
+        - name: benedict
+          image: 'asia.gcr.io/hardy-baton-254603/benedict-retriever-app:0.0.1'
+          ports:
+            - containerPort: 8081
+          env:
+            - name: "JAVA_OPTS"
+              value: "-Delasticsearch.host=elasticsearch-data"
