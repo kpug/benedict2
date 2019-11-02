@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from "@angular/core";
-import { EsService } from './es.service'
+import { EsService } from "./es.service";
 
 @Component({
   selector: "app-home",
@@ -7,6 +7,7 @@ import { EsService } from './es.service'
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements AfterViewInit {
+  constructor(private esService: EsService) {}
   words: String[] = [];
 
   fake: String[] = [
@@ -62,32 +63,32 @@ export class HomeComponent implements AfterViewInit {
     "would"
   ];
 
-  constructor(private esService: EsService) {
-  }
-
   ngAfterViewInit() {
-    const elems = document.getElementsByClassName("slide") as HTMLCollectionOf<HTMLElement>;
-  
+    const elems = document.getElementsByClassName("slide");
     for (let i = 0; i < elems.length; i++) {
-      elems.item(i).style.setProperty(
-        "animation-delay",
-        Math.round(Math.random() * 10) + "s"
-      );
-      elems.item(i).style.setProperty(
-        "font-size",
-        Math.round(Math.random() * 5 + 2) + "em"
-      );
+      elems
+        .item(i)
+        .setAttribute(
+          "style",
+          `animation-delay: ${Math.round(Math.random() * 10)}s`
+        );
+      elems
+        .item(i)
+        .setAttribute(
+          "style",
+          `font-size: ${Math.round(Math.random() * 5 + 2)}em`
+        );
     }
   }
 
   onKeyUp(event) {
-    this.esService.sayHi(event.target.value).subscribe((data) => {
-      this.words.splice(0)
+    this.esService.sayHi(event.target.value).subscribe(data => {
+      this.words.splice(0);
 
-      for(let i = 0 ; i < data.length ; i++) {
-        this.words.push(data[i])
+      for (let i = 0; i < data.length; i++) {
+        this.words.push(data[i]);
       }
-    })
+    });
   }
 
   r() {
