@@ -8,7 +8,6 @@
 
 .content {
   z-index: 1;
-  background-color: white;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -21,6 +20,7 @@
     border: 5px solid;
     border-radius: 30px;
     color: #F8F707;
+    background-color: white;
   }
 
   .search {

@@ -10,7 +10,7 @@ export class EsService {
 
   sayHi(query): Observable<String[]> {
     return this.http.get<String[]>(
-      `http://35.243.85.1:8081/method/suggest/${query}`
+      `http://localhost:8081/method/suggest/${query}`
     );
   }
 }

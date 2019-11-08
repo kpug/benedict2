@@ -70,13 +70,9 @@ export class HomeComponent implements AfterViewInit {
         .item(i)
         .setAttribute(
           "style",
-          `animation-delay: ${Math.round(Math.random() * 10)}s`
-        );
-      elems
-        .item(i)
-        .setAttribute(
-          "style",
-          `font-size: ${Math.round(Math.random() * 5 + 2)}em`
+          `animation-delay: ${Math.round(
+            Math.random() * 20
+          )}s; font-size: ${Math.round(Math.random() * 5 + 2)}em`
         );
     }
   }
