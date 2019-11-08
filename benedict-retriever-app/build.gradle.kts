@@ -10,7 +10,7 @@ configure<DockerExtension> {
     name = "${project.name}"
     version = "${project.version}"
     files(bootJar.archivePath)
-    setDockerfile(file("src/main/docker/Dockerfile"))
+    setDockerfile(file("./Dockerfile"))
     buildArgs(mapOf(
             "JAVA_OPTS" to "-Xs64m -Xmx128m",
             "JAR_FILE" to "${bootJar.archiveName}"
