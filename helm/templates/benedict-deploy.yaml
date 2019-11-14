@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       name: benedict-retriever-app
-  replicas: 1
+  replicas: { { .Values.replicaCount } }
   template:
     metadata:
       labels:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: benedict
-          image: 'asia.gcr.io/hardy-baton-254603/benedict-retriever-app:0.0.1'
+          image: "asia.gcr.io/hardy-baton-254603/benedict-retriever-app:0.0.1"
           ports:
             - containerPort: 8081
           env:
