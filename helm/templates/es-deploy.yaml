@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     name: es
-  name: es
+  name: es-deploy
 spec:
   selector:
     matchLabels:

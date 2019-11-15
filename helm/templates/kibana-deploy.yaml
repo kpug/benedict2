@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     name: kibana
-  name: kibana
+  name: kibana-deploy
 spec:
   selector:
     matchLabels:

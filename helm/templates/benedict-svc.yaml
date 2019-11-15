@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: elasticsearch-data
+  name: benedict-svc
   labels:
     component: elasticsearch
     role: data

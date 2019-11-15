@@ -3,12 +3,12 @@ kind: Deployment
 metadata:
   labels:
     name: benedict-retriever-app
-  name: benedict-retriever-app
+  name: benedict-deploy
 spec:
   selector:
     matchLabels:
       name: benedict-retriever-app
-  replicas: { { .Values.replicaCount } }
+  replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
