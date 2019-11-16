@@ -140,3 +140,21 @@ curl http://localhost:8081/method/suggest/get
 curl http://localhost:8081/method/search/text
 curl http://localhost:8081/method/mix/text
 ```
+
+
+### helm init
+
+```
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+helm init --service-account tiller --upgrade
+```
+
+### helm-chart create
+
+```
+$ helm install --name benedict helm
+```
+
+
