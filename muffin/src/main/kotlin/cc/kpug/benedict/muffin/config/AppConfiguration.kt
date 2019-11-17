@@ -27,7 +27,7 @@ import java.net.InetAddress
 @ComponentScan(basePackages = [
     "cc.kpug.benedict.core.domain",
     "cc.kpug.benedict.muffin.domain"])
-class RetrieverAppConfiguration {
+class AppConfiguration {
     @Value("\${elasticsearch.host:127.0.0.1}")
     val host: String? = null
 

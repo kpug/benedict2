@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/method")
-class RetrieverController(
+class MethodController(
         val methodDescriptionSuggestionService: MethodDescriptionSuggestionService) {
 
     @GetMapping("/search/{query}")
