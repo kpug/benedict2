@@ -5,4 +5,4 @@ elasticsearch:
   clustername: docker-cluster
 spring:
   application:
-    name: insertion-app
+    name: hollandaise
