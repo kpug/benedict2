@@ -1,7 +1,7 @@
 version: '3'
 services:
-  benedict-retriever-app:
-    image: 'benedict-retriever-app:latest'
+  muffin:
+    image: 'muffin:latest'
     environment:
       - JAVA_OPTS=-Delasticsearch.host=elasticsearch -Delasticsearch.clustername=docker-cluster -Dserver.port=8081
     ports:
