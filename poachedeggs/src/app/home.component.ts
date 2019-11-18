@@ -78,13 +78,17 @@ export class HomeComponent implements AfterViewInit {
   }
 
   onKeyUp(event) {
-    this.esService.sayHi(event.target.value).subscribe(data => {
+    if (event.target.value === "") {
       this.words.splice(0);
+    } else {
+      this.esService.sayHi(event.target.value).subscribe(data => {
+        this.words.splice(0);
 
-      for (let i = 0; i < data.length; i++) {
-        this.words.push(data[i]);
-      }
-    });
+        for (let d of data) {
+          this.words.push(d);
+        }
+      });
+    }
   }
 
   r() {
