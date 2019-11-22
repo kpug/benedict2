@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: es-svc
   labels:
+    name: es-svc
     component: elasticsearch
-    role: data
 spec:
   type: LoadBalancer
   ports:

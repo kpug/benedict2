@@ -1,22 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: muffin-deploy
   labels:
     name: muffin-deploy
-  name: muffin-deploy
+    component: boot
 spec:
   selector:
     matchLabels:
-      name: benedict-retriever-app
+      name: muffin
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
-        name: benedict-retriever-app
+        name: muffin
     spec:
       containers:
-        - name: benedict
-          image: "asia.gcr.io/hardy-baton-254603/benedict-retriever-app:0.0.1"
+        - name: muffin
+          image: "asia.gcr.io/hardy-baton-254603/muffin:0.0.1"
           ports:
             - containerPort: 8081
           env:

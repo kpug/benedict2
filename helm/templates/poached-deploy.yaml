@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: poachedeggs-deploy
   labels:
-    name: poachedeggs
-    instance: benedict
+    name: poachedeggs-deploy
+    component: nginx
 spec:
   selector:
     matchLabels:

@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: poachedeggs-svc
   labels:
-    name: benedict
+    name: poachedeggs-svc
     component: nginx
 spec:
   type: LoadBalancer

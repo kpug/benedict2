@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    name: kibana
   name: kibana-deploy
+  labels:
+    name: kibana-deploy
 spec:
   selector:
     matchLabels:
