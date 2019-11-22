@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: poachedeggs
+    instance: benedict
+spec:
+  selector:
+    matchLabels:
+      name: poachedeggs
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels: 
+        name: poachedeggs
+    spec:
+      containers:
+        - name: benedict
+          image: "asia.gcr.io/hardy-baton-254603/poachedeggs:0.0.1"
+          ports:
+            - containerPort: 80

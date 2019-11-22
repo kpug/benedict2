@@ -11,9 +11,9 @@
 ## Introduce Modules
 
 - benedict-core
-- benedict-insertion-app
-- benedict-retriever-app
-- eggs-benedict
+- hollandaise - benedict-insertion-app
+- muffin - benedict-retriever-app
+- poachedeggs - eggs-benedict
 
 ## How to run on test env
 

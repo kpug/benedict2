@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: poachedeggs-svc
+  labels:
+    name: benedict
+    component: nginx
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    name: http
+  selector:
+    name: poachedeggs
